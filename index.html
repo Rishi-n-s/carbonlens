@@ -1,0 +1,764 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarbonLens — Track &amp; Reduce Your Carbon Footprint</title>
+  <meta name="description" content="Understand your carbon footprint with data-driven insights from 10,000+ real-world profiles. Get personalized tips to reduce your environmental impact.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Analyzing 10,000+ carbon profiles…</p>
+  </div>
+
+  <!-- Animated Star Background -->
+  <div class="stars-container">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+  </div>  <!-- Navigation -->
+  <nav class="nav-bar" id="nav-bar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="#34d399" stroke-width="2" fill="rgba(52,211,153,0.1)"></circle>
+          <path d="M16 8c-2 4-6 6-6 10a6 6 0 0012 0c0-4-4-6-6-10z" fill="#34d399" opacity="0.8"></path>
+          <path d="M16 12c-1 2.5-3.5 3.5-3.5 6a3.5 3.5 0 007 0c0-2.5-2.5-3.5-3.5-6z" fill="#0a1a10"></path>
+        </svg>
+        CarbonLens
+      </a>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#calculator">Calculator</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#insights">Insights</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO SECTION ═══════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Powered by 10,000+ Real-World Data Points
+      </div>
+      <h1 class="hero-title">
+        Know Your <span class="gradient-text">Carbon Footprint</span>
+      </h1>
+      <p class="hero-subtitle">
+        Answer a few questions about your lifestyle and get personalized, data-driven insights to understand and reduce your environmental impact.
+      </p>
+      <button type="button" type="button" class="hero-cta" id="hero-cta">
+        Calculate My Footprint
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </button>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="hero-data-points">0</div>
+          <div class="hero-stat-label">Data Profiles</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value"><span id="hero-avg">0</span> kg</div>
+          <div class="hero-stat-label">Avg CO₂/Year</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="hero-diets">4</div>
+          <div class="hero-stat-label">Diet Types Analyzed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CALCULATOR SECTION ═══════════════ -->
+  <section id="calculator" class="section-padding">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">📊 Carbon Calculator</div>
+        <h2 class="section-title">Tell Us About Your <span class="gradient-text">Lifestyle</span></h2>
+        <p class="section-desc">Answer 6 simple steps and we'll match your profile against our dataset to estimate your annual carbon footprint.</p>
+      </div>
+
+      <div class="luminous-card accent-sky">
+        <div class="luminous-light-layer">
+          <div class="luminous-slit"></div>
+          <div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div>
+          <div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div>
+        </div>
+        <div class="luminous-content calculator-card">
+          <div class="luminous-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+              <path fill="url(#iconGradient)" d="M488.1 414.7V303.4L300.9 428l83.6 55.8zm254.1 137.7v-79.8l-59.8 39.9zM512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM245.8 459l196-130.6c11.9-7.9 27.5-8 39.5-.3 11.9 7.7 19.1 21 19.1 35.2v176l196-130.6c11.9-7.9 27.5-8 39.5-.3 11.9 7.7 19.1 21 19.1 35.2v176c0 23.3-18.9 42.1-42.1 42.1h-4.3c-15.5-2.2-29.2-10.7-37.5-23.7L474.3 470l-83.3-55.5V595c0 23.3-18.9 42.1-42.1 42.1H346c-20.1-2.9-36.8-17-42.3-36.8-1.5-5.5-2-11.2-1.5-16.8V384.8c0-23.2 18.8-42.1 42-42.1h3.9c15.6 2.1 29.5 10.6 37.7 23.8L536.4 516l84.4 56.3V444.6z"></path>
+              <defs>
+                <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fff"></stop>
+                  <stop offset="100%" stop-color="#666"></stop>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+      <div class="calculator-wrapper">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container reveal">
+          <div class="progress-steps">
+            <div class="progress-line-fill" style="width: 0%"></div>
+            <div class="progress-step active">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step">3</div>
+            <div class="progress-step">4</div>
+            <div class="progress-step">5</div>
+            <div class="progress-step">6</div>
+          </div>
+          <div class="progress-labels">
+            <span class="progress-label active">Personal</span>
+            <span class="progress-label">Diet</span>
+            <span class="progress-label">Transport</span>
+            <span class="progress-label">Energy</span>
+            <span class="progress-label">Lifestyle</span>
+            <span class="progress-label">Waste</span>
+          </div>
+        </div>
+
+        <div class="premium-card">
+
+          <!-- ── Step 1: Personal ── -->
+          <div class="form-step active" data-step="0">
+            <h3 class="step-title">
+              <span class="step-icon"><i data-lucide="user"></i></span> Personal Info
+            </h3>
+            <p class="step-subtitle">Tell us a bit about yourself</p>
+
+            <div class="form-group">
+              <label class="form-label">Body Type</label>
+              <div class="option-grid">
+                <label class="option-card">
+                  <input type="radio" name="bodyType" value="underweight">
+                  <span class="option-emoji"><i data-lucide="feather"></i></span>
+                  <span class="option-text">Underweight</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="bodyType" value="normal">
+                  <span class="option-emoji"><i data-lucide="scale"></i></span>
+                  <span class="option-text">Normal</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="bodyType" value="overweight">
+                  <span class="option-emoji"><i data-lucide="activity"></i></span>
+                  <span class="option-text">Overweight</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="bodyType" value="obese">
+                  <span class="option-emoji"><i data-lucide="circle-alert"></i></span>
+                  <span class="option-text">Obese</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Sex</label>
+              <div class="option-grid cols-2">
+                <label class="option-card">
+                  <input type="radio" name="sex" value="male">
+                  <span class="option-emoji"><i data-lucide="mars"></i></span>
+                  <span class="option-text">Male</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="sex" value="female">
+                  <span class="option-emoji"><i data-lucide="venus"></i></span>
+                  <span class="option-text">Female</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-nav">
+              <div></div>
+              <button type="button" type="button" class="btn btn-primary btn-next">
+                Next Step
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Step 2: Diet & Food ── -->
+          <div class="form-step" data-step="1">
+            <h3 class="step-title">
+              <span class="step-icon">🥗</span> Dietary Choices
+            </h3>
+            <p class="step-subtitle">What best describes your typical diet?</p>
+
+            <div class="option-grid">
+              <label class="option-card">
+                <input type="radio" name="diet" value="meat heavy" required>
+                <span class="option-emoji">🥩</span>
+                <span class="option-text">Meat Heavy</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="diet" value="omnivore">
+                <span class="option-emoji">🍔</span>
+                <span class="option-text">Omnivore</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="diet" value="pescatarian">
+                <span class="option-emoji">🐟</span>
+                <span class="option-text">Pescatarian</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="diet" value="vegetarian">
+                <span class="option-emoji">🥗</span>
+                <span class="option-text">Vegetarian</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="diet" value="vegan">
+                <span class="option-emoji">🌱</span>
+                <span class="option-text">Vegan</span>
+              </label>
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label class="form-label" style="margin-bottom:0">Monthly Grocery Bill ($)</label>
+                <span class="slider-value">150</span>
+              </div>
+              <input type="range" name="groceryBill" min="30" max="300" value="150" step="5" data-suffix="">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cooking Appliances Used</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-chip"><input type="checkbox" name="cooking" value="Stove"> <i data-lucide="flame"></i> Stove</label>
+                <label class="checkbox-chip"><input type="checkbox" name="cooking" value="Oven"> <i data-lucide="chef-hat"></i> Oven</label>
+                <label class="checkbox-chip"><input type="checkbox" name="cooking" value="Microwave"> <i data-lucide="waves"></i> Microwave</label>
+                <label class="checkbox-chip"><input type="checkbox" name="cooking" value="Grill"> <i data-lucide="drumstick"></i> Grill</label>
+                <label class="checkbox-chip"><input type="checkbox" name="cooking" value="Airfryer"> <i data-lucide="wind"></i> Airfryer</label>
+              </div>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" type="button" class="btn btn-secondary btn-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+              <button type="button" type="button" class="btn btn-primary btn-next">
+                Next Step
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Step 3: Transport ── -->
+          <div class="form-step" data-step="2">
+            <h3 class="step-title">
+              <span class="step-icon">🚗</span> Transport &amp; Commute
+            </h3>
+            <p class="step-subtitle">How do you primarily get around?</p>
+
+            <div class="form-group">
+              <label class="form-label">Primary Transportation</label>
+              <div class="option-grid cols-2">
+                <label class="option-card">
+                  <input type="radio" name="transport" value="drive alone">
+                  <span class="option-emoji">🚘</span>
+                  <span class="option-text">Drive Alone</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="transport" value="carpool">
+                  <span class="option-emoji">🚙</span>
+                  <span class="option-text">Carpool</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="transport" value="public transit">
+                  <span class="option-emoji">🚌</span>
+                  <span class="option-text">Public Transit</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="transport" value="bike/walk">
+                  <span class="option-emoji">🚲</span>
+                  <span class="option-text">Bike / Walk</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" id="vehicle-type-group">
+              <label class="form-label">Vehicle Type (if private)</label>
+              <div class="option-grid">
+                <label class="option-card">
+                  <input type="radio" name="vehicleType" value="petrol">
+                  <span class="option-emoji"><i data-lucide="fuel"></i></span>
+                  <span class="option-text">Petrol</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="vehicleType" value="diesel">
+                  <span class="option-emoji"><i data-lucide="droplet"></i></span>
+                  <span class="option-text">Diesel</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="vehicleType" value="hybrid">
+                  <span class="option-emoji"><i data-lucide="battery-charging"></i></span>
+                  <span class="option-text">Hybrid</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="vehicleType" value="electric">
+                  <span class="option-emoji"><i data-lucide="zap"></i></span>
+                  <span class="option-text">Electric</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="vehicleType" value="lpg">
+                  <span class="option-emoji"><i data-lucide="wind"></i></span>
+                  <span class="option-text">LPG</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label class="form-label" style="margin-bottom:0">Monthly Vehicle Distance (km)</label>
+                <span class="slider-value">500 km</span>
+              </div>
+              <input type="range" name="vehicleDistance" min="0" max="10000" value="500" step="50" data-suffix=" km">
+            </div>
+
+            <div class="form-nav">
+              <button type="button" type="button" class="btn btn-secondary btn-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+              <button type="button" type="button" class="btn btn-primary btn-next">
+                Next Step
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Step 4: Energy & Home ── -->
+          <div class="form-step" data-step="3">
+            <h3 class="step-title">
+              <span class="step-icon">⚡</span> Home Energy
+            </h3>
+            <p class="step-subtitle">Tell us about your household power source and usage</p>
+
+            <div class="form-group">
+              <label class="form-label">Energy Source</label>
+              <div class="option-grid cols-3">
+                <label class="option-card">
+                  <input type="radio" name="energySource" value="coal/gas">
+                  <span class="option-emoji">🔥</span>
+                  <span class="option-text">Coal / Gas</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="energySource" value="mixed">
+                  <span class="option-emoji">🔌</span>
+                  <span class="option-text">Mixed Grid</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="energySource" value="renewable">
+                  <span class="option-emoji">☀️</span>
+                  <span class="option-text">Renewable</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">How Often Do You Shower?</label>
+              <div class="option-grid cols-2">
+                <label class="option-card">
+                  <input type="radio" name="shower" value="less frequently">
+                  <span class="option-emoji">💧</span>
+                  <span class="option-text">Less Often</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="shower" value="daily">
+                  <span class="option-emoji">🚿</span>
+                  <span class="option-text">Daily</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="shower" value="more frequently">
+                  <span class="option-emoji">🌊</span>
+                  <span class="option-text">More Often</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="shower" value="twice a day">
+                  <span class="option-emoji">💦</span>
+                  <span class="option-text">Twice a Day</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Energy Efficient Appliances?</label>
+              <div class="option-grid cols-3">
+                <label class="option-card">
+                  <input type="radio" name="energyEfficiency" value="No">
+                  <span class="option-emoji"><i data-lucide="x"></i></span>
+                  <span class="option-text">No</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="energyEfficiency" value="Sometimes">
+                  <span class="option-emoji"><i data-lucide="refresh-cw"></i></span>
+                  <span class="option-text">Sometimes</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="energyEfficiency" value="Yes">
+                  <span class="option-emoji"><i data-lucide="check"></i></span>
+                  <span class="option-text">Yes</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" type="button" class="btn btn-secondary btn-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+              <button type="button" type="button" class="btn btn-primary btn-next">
+                Next Step
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Step 5: Lifestyle ── -->
+          <div class="form-step" data-step="4">
+            <h3 class="step-title">
+              <span class="step-icon">✈️</span> Lifestyle &amp; Travel
+            </h3>
+            <p class="step-subtitle">Your daily habits and travel patterns</p>
+
+            <div class="form-group">
+              <label class="form-label">Frequency of Air Travel</label>
+              <div class="option-grid">
+                <label class="option-card">
+                  <input type="radio" name="airTravel" value="never">
+                  <span class="option-emoji">🚫</span>
+                  <span class="option-text">Never</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="airTravel" value="rarely">
+                  <span class="option-emoji">🛩️</span>
+                  <span class="option-text">Rarely</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="airTravel" value="frequently">
+                  <span class="option-emoji">✈️</span>
+                  <span class="option-text">Frequently</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="airTravel" value="very frequently">
+                  <span class="option-emoji">🌍</span>
+                  <span class="option-text">Very Frequently</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Social Activity Level</label>
+              <div class="option-grid cols-3">
+                <label class="option-card">
+                  <input type="radio" name="socialActivity" value="never">
+                  <span class="option-emoji">🏠</span>
+                  <span class="option-text">Never</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="socialActivity" value="sometimes">
+                  <span class="option-emoji">👋</span>
+                  <span class="option-text">Sometimes</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="socialActivity" value="often">
+                  <span class="option-emoji">🎉</span>
+                  <span class="option-text">Often</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label class="form-label" style="margin-bottom:0">Daily Screen Time (hours)</label>
+                <span class="slider-value">4</span>
+              </div>
+              <input type="range" name="screenTime" min="0" max="24" value="4" step="1" data-suffix="">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label class="form-label" style="margin-bottom:0">New Clothes Per Month</label>
+                <span class="slider-value">5</span>
+              </div>
+              <input type="range" name="newClothes" min="0" max="50" value="5" step="1" data-suffix="">
+            </div>
+
+            <div class="form-nav">
+              <button type="button" type="button" class="btn btn-secondary btn-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+              <button type="button" type="button" class="btn btn-primary btn-next">
+                Next Step
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ── Step 6: Waste & Recycling ── -->
+          <div class="form-step" data-step="5">
+            <h3 class="step-title">
+              <span class="step-icon">♻️</span> Waste &amp; Recycling
+            </h3>
+            <p class="step-subtitle">Small changes in waste habits add up to big savings</p>
+
+            <div class="form-group">
+              <label class="form-label">Waste Bag Size</label>
+              <div class="option-grid cols-2">
+                <label class="option-card">
+                  <input type="radio" name="wasteBagSize" value="small">
+                  <span class="option-emoji">🛍️</span>
+                  <span class="option-text">Small</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="wasteBagSize" value="medium">
+                  <span class="option-emoji">🗑️</span>
+                  <span class="option-text">Medium</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="wasteBagSize" value="large">
+                  <span class="option-emoji">🛢️</span>
+                  <span class="option-text">Large</span>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="wasteBagSize" value="extra large">
+                  <span class="option-emoji">🏭</span>
+                  <span class="option-text">Extra Large</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label class="form-label" style="margin-bottom:0">Waste Bags Per Week</label>
+                <span class="slider-value">3</span>
+              </div>
+              <input type="range" name="wasteBagCount" min="1" max="7" value="3" step="1" data-suffix="">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">What Do You Recycle?</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-chip"><input type="checkbox" name="recycling" value="Paper"> <span class="checkbox-emoji">📄</span> Paper</label>
+                <label class="checkbox-chip"><input type="checkbox" name="recycling" value="Plastic"> <span class="checkbox-emoji">🧴</span> Plastic</label>
+                <label class="checkbox-chip"><input type="checkbox" name="recycling" value="Glass"> <span class="checkbox-emoji">🍾</span> Glass</label>
+                <label class="checkbox-chip"><input type="checkbox" name="recycling" value="Metal"> <span class="checkbox-emoji">🥫</span> Metal</label>
+              </div>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" type="button" class="btn btn-secondary btn-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Previous
+              </button>
+              <button type="button" type="button" class="btn btn-primary btn-next" style="background: linear-gradient(135deg, #059669, #047857);">
+                <i data-lucide="globe"></i> Calculate My Footprint
+              </button>
+            </div>
+          </div>
+        </div><!-- /calculator-wrapper -->
+        </div><!-- /luminous-content -->
+      </div><!-- /luminous-card -->
+    </div>
+  </section>
+
+  <!-- ═══════════════ RESULTS SECTION ═══════════════ -->
+  <section id="results" class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">📊 Your Results</div>
+        <h2 class="section-title">Your Carbon <span class="gradient-text">Footprint</span></h2>
+      </div>
+
+      <!-- Score Card -->
+      <div class="luminous-card accent-emerald">
+        <div class="luminous-light-layer">
+          <div class="luminous-slit"></div>
+          <div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div>
+          <div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div>
+        </div>
+        <div class="luminous-content score-card">
+          <div class="luminous-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+              <path fill="url(#iconGradient)" d="M488.1 414.7V303.4L300.9 428l83.6 55.8zm254.1 137.7v-79.8l-59.8 39.9zM512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM245.8 459l196-130.6c11.9-7.9 27.5-8 39.5-.3 11.9 7.7 19.1 21 19.1 35.2v176l196-130.6c11.9-7.9 27.5-8 39.5-.3 11.9 7.7 19.1 21 19.1 35.2v176c0 23.3-18.9 42.1-42.1 42.1h-4.3c-15.5-2.2-29.2-10.7-37.5-23.7L474.3 470l-83.3-55.5V595c0 23.3-18.9 42.1-42.1 42.1H346c-20.1-2.9-36.8-17-42.3-36.8-1.5-5.5-2-11.2-1.5-16.8V384.8c0-23.2 18.8-42.1 42-42.1h3.9c15.6 2.1 29.5 10.6 37.7 23.8L536.4 516l84.4 56.3V444.6z"></path>
+            </svg>
+          </div>
+          <p class="score-label">Your Estimated Annual Carbon Footprint</p>
+        <div class="score-value gradient-text" id="score-value">0</div>
+        <p class="score-unit">kg CO₂ per year</p>
+        <div class="score-rating" id="score-rating"></div>
+
+        <!-- Percentile Bar -->
+        <div class="percentile-bar">
+          <div class="percentile-track">
+            <div class="percentile-fill" style="width: 0%"></div>
+            <div class="percentile-marker" style="left: 0%"></div>
+          </div>
+          <div class="percentile-labels">
+            <span>Low Emission</span>
+            <span id="percentile-text">—</span>
+            <span>High Emission</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Category Data Cards (UIverse style) -->
+      <div class="data-cards-grid" id="data-cards-grid">
+        <!-- Dynamically populated -->
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="luminous-card accent-sky">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>Emission Breakdown</h3>
+            <p class="chart-desc">How each lifestyle area contributes to your footprint</p>
+            <div class="chart-container"><canvas id="chart-breakdown"></canvas></div>
+          </div>
+        </div>
+        <div class="luminous-card accent-violet">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>How You Compare</h3>
+            <p class="chart-desc">Your emission vs. population average and best profiles</p>
+            <div class="chart-container"><canvas id="chart-comparison"></canvas></div>
+          </div>
+        </div>
+        <div class="luminous-card accent-emerald">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>Lifestyle Profile</h3>
+            <p class="chart-desc">Your impact across different lifestyle dimensions</p>
+            <div class="chart-container"><canvas id="chart-radar"></canvas></div>
+          </div>
+        </div>
+        <div class="luminous-card accent-amber">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>Potential Savings</h3>
+            <p class="chart-desc">How much you could save by switching to the best option</p>
+            <div class="chart-container"><canvas id="chart-savings"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recalculate -->
+      <div class="recalc-bar">
+        <button type="button" type="button" class="btn btn-secondary" id="recalc-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M1 4v6h6M23 20v-6h-6"></path><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"></path></svg>
+          Recalculate
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ INSIGHTS SECTION ═══════════════ -->
+  <section id="insights" class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">💡 Personalized Insights</div>
+        <h2 class="section-title">Actions to <span class="gradient-text">Reduce</span> Your Impact</h2>
+        <p class="section-desc">Data-driven recommendations based on your profile, ranked by potential carbon savings.</p>
+      </div>
+      <div class="insights-grid" id="insights-grid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ GLOBAL STATS SECTION ═══════════════ -->
+  <section id="global-stats" class="section-padding">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label"><i data-lucide="globe"></i> Dataset Overview</div>
+        <h2 class="section-title">Global <span class="gradient-text">Statistics</span></h2>
+        <p class="section-desc">Aggregate insights from 10,000+ real-world carbon emission profiles.</p>
+      </div>
+
+      <div class="stats-summary">
+        <div class="luminous-card accent-sky">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content stat-card">
+            <div class="stat-card-value gradient-text" id="stat-avg">0</div>
+            <div class="stat-card-label">Average Emission</div>
+          </div>
+        </div>
+        <div class="luminous-card accent-emerald">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content stat-card">
+            <div class="stat-card-value" style="color: var(--emerald-400)" id="stat-min">0</div>
+            <div class="stat-card-label">Lowest Emission</div>
+          </div>
+        </div>
+        <div class="luminous-card accent-rose">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content stat-card">
+            <div class="stat-card-value" style="color: var(--rose-400)" id="stat-max">0</div>
+            <div class="stat-card-label">Highest Emission</div>
+          </div>
+        </div>
+        <div class="luminous-card accent-sky">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content stat-card">
+            <div class="stat-card-value" style="color: var(--sky-400)" id="stat-count">0</div>
+            <div class="stat-card-label">Profiles Analyzed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="global-charts-grid">
+        <div class="luminous-card accent-violet">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>Emissions by Diet Type</h3>
+            <p class="chart-desc">Average annual emissions for each dietary preference</p>
+            <div class="chart-container"><canvas id="chart-global-diet"></canvas></div>
+          </div>
+        </div>
+        <div class="luminous-card accent-sky">
+          <div class="luminous-light-layer"><div class="luminous-slit"></div><div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div><div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div></div>
+          <div class="luminous-content chart-card">
+            <h3>Emissions by Transport Mode</h3>
+            <p class="chart-desc">How your transport choice impacts carbon output</p>
+            <div class="chart-container"><canvas id="chart-global-transport"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-text">
+        🌿 <span>CarbonLens</span> — Data-driven carbon footprint insights. Powered by Kaggle Carbon Emission dataset.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // Wait for everything to load then render static icons
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+  </script>
+
+
+</body></html>
