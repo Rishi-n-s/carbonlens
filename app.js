@@ -15,6 +15,66 @@
     results: null,
   };
 
+  // ── State Persistence ──────────────────────────────────
+  function saveState() {
+    localStorage.setItem('carbonlens_state', JSON.stringify({
+      answers: state.answers,
+      currentStep: state.currentStep,
+      isComplete: $('#calculator').style.display === 'none'
+    }));
+  }
+
+  function restoreState() {
+    const saved = localStorage.getItem('carbonlens_state');
+    if (!saved) return false;
+    try {
+      const data = JSON.parse(saved);
+      if (data.answers) state.answers = data.answers;
+      
+      Object.entries(state.answers).forEach(([key, val]) => {
+        if (Array.isArray(val)) {
+          val.forEach(v => {
+            const cb = document.querySelector(`input[name="${key}"][value="${v}"]`);
+            if (cb && cb.type === 'checkbox') {
+              cb.checked = true;
+              const chip = cb.closest('.checkbox-chip');
+              if (chip) chip.classList.add('selected');
+            }
+          });
+        } else {
+          const radio = document.querySelector(`input[type="radio"][name="${key}"][value="${val}"]`);
+          if (radio) {
+            radio.checked = true;
+            const card = radio.closest('.option-card');
+            if (card) {
+              const group = card.closest('.option-grid');
+              if (group) group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+              card.classList.add('selected');
+            }
+          }
+          const range = document.querySelector(`input[type="range"][name="${key}"]`);
+          if (range) {
+            range.value = val;
+            const display = range.closest('.slider-group')?.querySelector('.slider-value');
+            if (display) display.textContent = parseFloat(val).toLocaleString() + (range.dataset.suffix || '');
+          }
+        }
+      });
+      
+      if (data.isComplete) {
+        state.currentStep = state.totalSteps - 1;
+        $('#calculator').style.display = 'none';
+        calculateResults();
+      } else {
+        goToStep(data.currentStep || 0);
+      }
+      return true;
+    } catch (e) {
+      console.error('Failed to restore state', e);
+      return false;
+    }
+  }
+
   // ── DOM Cache ──────────────────────────────────────────
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -619,6 +679,44 @@
         },
       });
     },
+
+    /** Gauge chart for main score */
+    renderGauge(canvasId, userEmission, avgEmission, maxEmission) {
+      this.destroy(canvasId);
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      
+      const maxScale = avgEmission * 2.5;
+      const displayValue = Math.min(userEmission, maxScale);
+      const remainder = Math.max(0, maxScale - displayValue);
+      
+      let color = '#34d399'; // green
+      if (userEmission > avgEmission * 1.25) color = '#fb7185'; // red
+      else if (userEmission >= avgEmission * 0.75) color = '#fbbf24'; // amber
+
+      this.instances[canvasId] = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Your Emission', ''],
+          datasets: [{
+            data: [displayValue, remainder],
+            backgroundColor: [color, 'rgba(255,255,255,0.05)'],
+            borderWidth: 0,
+            borderRadius: [8, 0]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          rotation: -90,
+          circumference: 180,
+          cutout: '80%',
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          }
+        }
+      });
+    },
   };
 
   // ── Particle Background ────────────────────────────────
@@ -741,8 +839,10 @@
     $('#calculator').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function nextStep() {
+  function nextStep(e) {
+    if (e && e.preventDefault) e.preventDefault();
     collectCurrentStepAnswers();
+    saveState();
     if (state.currentStep === state.totalSteps - 1) {
       calculateResults();
     } else {
@@ -750,8 +850,10 @@
     }
   }
 
-  function prevStep() {
+  function prevStep(e) {
+    if (e && e.preventDefault) e.preventDefault();
     goToStep(state.currentStep - 1);
+    saveState();
   }
 
   // ── Collect Answers ────────────────────────────────────
@@ -781,6 +883,7 @@
   // ── Calculate & Render Results ─────────────────────────
   function calculateResults() {
     collectCurrentStepAnswers();
+    saveState();
 
     // Show loading briefly
     const loading = $('.loading-overlay');
@@ -845,6 +948,7 @@
 
     // ── Charts ──
     setTimeout(() => {
+      Charts.renderGauge('score-gauge', emission, gStats.avg, gStats.max);
       Charts.renderBreakdown('chart-breakdown', categories);
       Charts.renderComparison('chart-comparison', emission, Math.round(gStats.avg), gStats.min);
       Charts.renderRadar('chart-radar', categories);
@@ -902,12 +1006,12 @@
     grid.innerHTML = '';
 
     const colorMap = {
-      diet:       'accent-emerald',
-      transport:  'accent-sky',
-      energy:     'accent-amber',
-      travel:     'accent-rose',
-      waste:      'accent-violet',
-      efficiency: 'accent-lime',
+      diet:       'emerald',
+      transport:  'sky',
+      energy:     'amber',
+      travel:     'rose',
+      waste:      'violet',
+      efficiency: 'lime',
     };
 
     const svgIcons = {
@@ -929,7 +1033,7 @@
     };
 
     Object.entries(categories).forEach(([key, cat]) => {
-      const dc = colorMap[key] || 'dc-emerald';
+      const colorKey = colorMap[key] || 'emerald';
       const avg = Math.round(gStats.avg);
       const delta = avg > 0 ? ((cat.value - avg) / avg * 100).toFixed(1) : 0;
       const deltaClass = delta <= 0 ? 'positive' : 'negative';
@@ -971,14 +1075,14 @@
       }).join('');
 
       const card = document.createElement('div');
-      card.className = `luminous-card ${dc}`;
+      card.className = `luminous-card accent-${colorKey}`;
       card.innerHTML = `
         <div class="luminous-light-layer">
           <div class="luminous-slit"></div>
           <div class="luminous-lumen"><div class="min"></div><div class="mid"></div><div class="hi"></div></div>
           <div class="luminous-darken"><div class="sl"></div><div class="ll"></div><div class="slt"></div><div class="srt"></div></div>
         </div>
-        <div class="luminous-content data-card">
+        <div class="luminous-content data-card dc-${colorKey}">
 
           <div class="data-card-header">
             <div class="data-card-title-group">
@@ -1020,7 +1124,6 @@
             <button class="dc-detail-btn" onclick="document.getElementById('insights').scrollIntoView({behavior:'smooth'})">
               View Tips
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
-            </button>
             </button>
           </div>
         </div>
@@ -1086,8 +1189,10 @@
   };
 
   // ── Recalculate ────────────────────────────────────────
-  function recalculate() {
+  function recalculate(e) {
+    if (e && e.preventDefault) e.preventDefault();
     // Reset
+    localStorage.removeItem('carbonlens_state');
     state.currentStep = 0;
     state.answers = {};
     state.results = null;
@@ -1124,6 +1229,8 @@
           group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
           card.classList.add('selected');
           input.checked = true;
+          collectCurrentStepAnswers();
+          saveState();
         }
       });
     });
@@ -1134,6 +1241,8 @@
         chip.classList.toggle('selected');
         const input = chip.querySelector('input[type="checkbox"]');
         if (input) input.checked = chip.classList.contains('selected');
+        collectCurrentStepAnswers();
+        saveState();
       });
     });
 
@@ -1144,6 +1253,8 @@
         if (display) {
           display.textContent = parseFloat(slider.value).toLocaleString() + (slider.dataset.suffix || '');
         }
+        collectCurrentStepAnswers();
+        saveState();
       });
     });
 
@@ -1161,7 +1272,8 @@
     // Hero CTA
     const heroCta = $('#hero-cta');
     if (heroCta) {
-      heroCta.addEventListener('click', () => {
+      heroCta.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         $('#calculator').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
@@ -1251,7 +1363,9 @@
     }
 
     // Initialize first step
-    goToStep(0);
+    if (!restoreState()) {
+      goToStep(0);
+    }
   }
 
   // Start

@@ -593,9 +593,16 @@
             </svg>
           </div>
           <p class="score-label">Your Estimated Annual Carbon Footprint</p>
-        <div class="score-value gradient-text" id="score-value">0</div>
-        <p class="score-unit">kg CO₂ per year</p>
-        <div class="score-rating" id="score-rating"></div>
+          
+          <div class="gauge-container" style="position: relative; width: 100%; max-width: 400px; margin: 20px auto; height: 220px;">
+            <canvas id="score-gauge"></canvas>
+            <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; width: 100%;">
+              <div class="score-value gradient-text" id="score-value" style="font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 0;">0</div>
+              <p class="score-unit" style="margin-top: 5px;">kg CO₂ per year</p>
+            </div>
+          </div>
+          
+        <div class="score-rating" id="score-rating" style="margin-top: 10px;"></div>
 
         <!-- Percentile Bar -->
         <div class="percentile-bar">
@@ -750,7 +757,7 @@
   <!-- Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
   <script src="app.js"></script>
 
   <script>
